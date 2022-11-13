@@ -1,0 +1,613 @@
+#:import Factory kivy.factory.Factory
+
+<Popup@Popup>
+    auto_dismiss: False
+    size_hint: None, None
+    size: 300, 220
+    pos_hint: {"center_x": 0.5, "top": 0.8}
+
+    MDBoxLayout:
+        orientation: "vertical"
+        size: root.width, root.height
+        radius: [25, 0, 0, 0]
+        Label:
+            text: "Proszę wypełnić wszystkie pola formularza\n prawidłowymi informacjami."
+            halign: "center"
+            font_size: 14
+
+        MDFillRoundFlatIconButton:
+            text: "Zamknij"
+            text_color: 0.9, 1, 1, 1
+            icon: "window-close"
+            icon_color: 1, 1, 1, 1
+            font_size: 20
+            pos_hint: {"x": 0.5}
+            on_release: root.dismiss()
+
+        Widget:
+            size_hint_y: None
+            height: 10
+
+WindowManager:
+    LoginScreen:
+    RegisterScreen:
+    MainScreen:
+    ProfileScreen:
+    SettingsScreen:
+    AddDeviceScreen:
+    SingleDeviceScreen:
+
+<LoginScreen>:
+    name: "login_screen"
+    login: login
+    password: password
+
+    MDCard:
+        size_hint: None, None
+        size: 300, 400
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        elevation: 10
+        padding: 25
+        spacing: 25
+        radius:dp(10)
+        orientation: 'vertical'
+
+        MDLabel:
+            id: login_label
+            text: "Zaloguj się"
+            font_size: 40
+            halign: 'center'
+            size_hint_y: None
+            height: self.texture_size[1]
+            padding_y: 15
+
+        MDTextFieldRound:
+            id: login
+            hint_text: "adres e-mail"
+            icon_left: "account"
+            size_hint_x: None
+            width: 200
+            font_size: 18
+            pos_hint: {"center_x": 0.5}
+
+        MDTextFieldRound:
+            id: password
+            hint_text: "hasło"
+            icon_left: "eye-off"
+            size_hint_x: None
+            width: 200
+            font_size: 18
+            pos_hint: {"center_x": 0.5}
+            password: True
+
+        MDRoundFlatButton:
+            text: "Zaloguj się"
+            font_size: 14
+            pos_hint: {"center_x": 0.5}
+            on_release:
+                root.log_in()
+                root.manager.transition.direction = "left"
+                app.root.current = "main_screen"
+
+        MDRoundFlatButton:
+            text: "Załóż konto"
+            font_size: 14
+            pos_hint: {"center_x": 0.5}
+            on_release:
+                root.manager.transition.direction = "right"
+                app.root.current = "register_screen"
+                root.register_acc()
+
+        Widget:
+            size_hint_y: None
+            height: 10
+
+<RegisterScreen>:
+    name: "register_screen"
+    acc_name: acc_name
+    login: login
+    password: password
+
+    MDCard:
+        size_hint: None, None
+        size: 300, 410
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        elevation: 10
+        padding: 25
+        spacing: 25
+        radius:dp(10)
+        orientation: 'vertical'
+
+        MDLabel:
+            id: register_label
+            text: "Załóż konto"
+            font_size: 40
+            halign: 'center'
+            size_hint_y: None
+            height: self.texture_size[1]
+            padding_y: 15
+
+        MDTextFieldRound:
+            id: acc_name
+            hint_text: "nazwa użytkownika"
+            icon_left: "account-box"
+            size_hint_x: None
+            width: 210
+            font_size: 18
+            pos_hint: {"center_x": 0.5}
+
+        MDTextFieldRound:
+            id: login
+            hint_text: "adres e-mail"
+            icon_left: "account"
+            size_hint_x: None
+            width: 210
+            font_size: 18
+            pos_hint: {"center_x": 0.5}
+
+        MDTextFieldRound:
+            id: password
+            hint_text: "hasło"
+            icon_left: "eye-off"
+            size_hint_x: None
+            width: 210
+            font_size: 18
+            pos_hint: {"center_x": 0.5}
+            password: True
+
+        MDRoundFlatButton:
+            text: "Zarejestruj się"
+            font_size: 14
+            pos_hint: {"center_x": 0.5}
+            on_press:
+                root.manager.transition.direction = "right"
+                root.register_button()
+
+        MDRoundFlatButton:
+            text: "Masz już konto? Zaloguj się"
+            font_size: 14
+            pos_hint: {"center_x": 0.5}
+            on_press:
+                root.manager.transition.direction = "left"
+                app.root.current = "login_screen"
+                root.log_in_button()
+
+<ProfileScreen>
+    name: "profile_screen"
+    Screen:
+        MDNavigationLayout:
+            ScreenManager:
+                Screen:
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        MDToolbar:
+                            title: "Ustawienia konta"
+                            elevation: 10
+                            md_bg_color: app.theme_cls.primary_color
+                            left_action_items: [['menu', lambda x: nav_drawer.set_state("open")]]
+
+                        MDLabel:
+                            id: profile_label
+                            text: "Mój profil"
+                            halign: "center"
+                            size_hint_y:.10
+                            font_size: 22
+
+
+                        MDCard:
+                            size_hint: None, None
+                            size: 300, 150
+                            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                            size_hint_y:.14
+                            elevation: 10
+                            padding: 18
+                            spacing: 10
+
+                            AnchorLayout:
+                                anchor_x: "center"
+                                size_hint_y: None
+                                height: avatar.height
+
+                                Image:
+                                    id: avatar
+                                    size_hint: None, None
+                                    size: "56dp", "56dp"
+                                    source: "icons/icon-user.png"
+
+                            MDLabel:
+                                id: acc_name_label
+                                text: "Adam Testowy"
+                                halign: "center"
+                                pos_hint: {"center_x": 0.3, "center_y": 0.5}
+
+                        MDLabel:
+                            id: profile_label
+                            text: "Edytuj profil"
+                            halign: "center"
+                            font_size: 18
+                            size_hint_y:.10
+
+                        MDCard:
+                            size_hint: None, None
+                            size: 300, 220
+                            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                            size_hint_y:.42
+                            elevation: 10
+                            padding: 25, 0, 25, 25
+                            spacing: 20
+                            orientation: 'vertical'
+
+                            MDTextFieldRound:
+                                id: login
+                                hint_text: "adres e-mail"
+                                icon_left: "account"
+                                normal_color: app.theme_cls.accent_color
+                                size_hint_x: None
+                                width: 210
+                                font_size: 18
+                                pos_hint: {"center_x": 0.5}
+                                disabled: True
+
+                            MDTextFieldRound:
+                                id: acc_name
+                                hint_text: "nazwa użytkownika"
+                                icon_left: "account-box"
+                                size_hint_x: None
+                                width: 210
+                                font_size: 18
+                                pos_hint: {"center_x": 0.5}
+
+                            MDTextFieldRound:
+                                id: password
+                                hint_text: "stare hasło"
+                                icon_left: "key-variant"
+                                size_hint_x: None
+                                width: 210
+                                font_size: 18
+                                pos_hint: {"center_x": 0.5}
+                                password: True
+
+                            MDTextFieldRound:
+                                id: confirm_password
+                                hint_text: "nowe hasło"
+                                icon_left: "key-variant"
+                                size_hint_x: None
+                                width: 210
+                                font_size: 18
+                                pos_hint: {"center_x": 0.5}
+                                password: True
+
+                            MDRoundFlatButton:
+                                text: "Zaktualizuj profil"
+                                font_size: 14
+                                pos_hint: {"center_x": 0.5}
+                                on_press:
+                                    pass
+
+                        Widget:
+                            size_hint_y: None
+                            height: 110
+
+            MDNavigationDrawer:
+                id: nav_drawer
+                ContentNavigationDrawer:
+                    id: content_drawer
+                    nav_drawer: nav_drawer
+
+<SettingsScreen>
+    name: "settings_screen"
+    Screen:
+        MDNavigationLayout:
+            ScreenManager:
+                Screen:
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        MDToolbar:
+                            title: "Ustawienia aplikacji"
+                            elevation: 10
+                            md_bg_color: app.theme_cls.primary_color
+                            left_action_items: [['menu', lambda x: nav_drawer.set_state("open")]]
+
+                        MDLabel:
+                            id: profile_label
+                            text: "Ustawienia"
+                            halign: "center"
+
+            MDNavigationDrawer:
+                id: nav_drawer
+                ContentNavigationDrawer:
+                    id: content_drawer
+                    nav_drawer: nav_drawer
+
+<AddDeviceScreen>:
+    name: "add_device_screen"
+    add_device: add_device
+    quantity_of_devices: quantity_of_devices
+
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Dodaj urządzenie"
+            elevation: 10
+            md_bg_color: app.theme_cls.primary_color
+            left_action_items: [['arrow-left', lambda *args : setattr(root.manager, "current", "main_screen")]]
+
+        MDLabel:
+            id: device_name_label
+            text: "Nadaj nazwę nowego urządzenia:"
+            halign: "center"
+
+        MDTextFieldRound:
+            id: add_device
+            hint_text: "nazwa urządzenia"
+            icon_left: "devices"
+            size_hint_x: None
+            width: 210
+            font_size: 18
+            pos_hint: {"center_x": 0.5}
+
+        MDLabel:
+            id: quantity_label
+            text: "Podaj ilość urządzeń:"
+            halign: "center"
+
+        MDTextFieldRound:
+            id: quantity_of_devices
+            hint_text: "ilość urządzeń"
+            icon_left: "counter"
+            size_hint_x: None
+            width: 210
+            font_size: 18
+            pos_hint: {"center_x": 0.5}
+
+        Widget:
+            size_hint_y: None
+            height: 25
+
+        MDRoundFlatButton:
+            text: "Dodaj urządzenie"
+            font_size: 14
+            pos_hint: {"center_x": 0.5}
+            on_press:
+                root.add_new_device()
+
+        Widget:
+            size_hint_y: None
+            height: 370
+
+<SingleDeviceScreen>:
+    name: "single_device_screen"
+
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title: "Opcje urządzenia"
+            elevation: 10
+            md_bg_color: app.theme_cls.primary_color
+            left_action_items: [['arrow-left', lambda *args : setattr(root.manager, "current", "main_screen")]]
+
+        MDLabel:
+            id: single_dev_label
+            text: "Ustal harmonogram dla urządzenia:"
+            halign: "center"
+
+        MDRoundFlatButton:
+            text: "Ustaw datę"
+            font_size: 14
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            on_press:
+                root.show_date_picker()
+
+        Widget:
+            size_hint_y: None
+            height: 25
+
+        MDRoundFlatButton:
+            text: "Ustaw czas"
+            font_size: 14
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            on_press:
+                root.show_time_picker()
+
+        MDLabel:
+            id: date_label
+            text: ""
+            halign: "center"
+
+        MDLabel:
+            id: time_label
+            text: ""
+            halign: "center"
+
+        MDLabel:
+            id: turn_on_label
+            text: "Włącz lub wyłącz urządzenie:"
+            halign: "center"
+
+        MDSwitch:
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            width: dp(50)
+            widget_style: "ios"
+
+        Widget:
+            size_hint_y: None
+            height: 25
+
+        MDRoundFlatButton:
+            text: "Zapisz"
+            font_size: 14
+            pos_hint: {"center_x": 0.8}
+            on_press:
+                root.save_device_options()
+
+        Widget:
+            size_hint_y: None
+            height: 150
+
+<ContentNavigationDrawer>:
+    orientation: "vertical"
+    padding: "10dp"
+    spacing: "8dp"
+
+    AnchorLayout:
+        anchor_x: "center"
+        size_hint_y: None
+        height: avatar.height
+
+        Image:
+            id: avatar
+            size_hint: None, None
+            size: "56dp", "56dp"
+            source: "icons/icon-garden.png"
+
+    MDLabel:
+        text: "Menu:"
+        font_style: "Button"
+        size_hint_y: None
+        height: self.texture_size[1]
+
+    ScrollView:
+        MDList:
+            OneLineIconListItem:
+                text: "Konto"
+                on_press:
+                    root.nav_drawer.set_state("close")
+                    app.root.current = "profile_screen"
+                IconLeftWidget:
+                    icon: "card-account-details"
+
+
+            OneLineIconListItem:
+                text: "Urządzenia"
+                on_press:
+                    root.nav_drawer.set_state("close")
+                    app.root.current = "main_screen"
+                IconLeftWidget:
+                    icon: "collage"
+
+            OneLineIconListItem:
+                text: "Ustawienia"
+                on_press:
+                    root.nav_drawer.set_state("close")
+                    app.root.current = "settings_screen"
+                IconLeftWidget:
+                    icon: "cog"
+
+            OneLineIconListItem:
+                text: "Wyloguj się"
+                on_press:
+                    root.nav_drawer.set_state("close")
+                    app.root.current = "login_screen"
+                IconLeftWidget:
+                    icon: "logout"
+
+<MainScreen>:
+    name: "main_screen"
+    content_drawer: content_drawer
+
+    Screen:
+        MDNavigationLayout:
+            ScreenManager:
+                Screen:
+                    MDBoxLayout:
+                        orientation: "vertical"
+                        MDToolbar:
+                            title: "Zarządzaj urządzeniami"
+                            elevation: 10
+                            md_bg_color: app.theme_cls.primary_color
+                            left_action_items: [['menu', lambda x: nav_drawer.set_state("open")]]
+
+                        MDBoxLayout:
+                            orientation: "vertical"
+                            size_hint_y:.15
+                            padding:[dp(15),dp(0),dp(0),dp(0)]
+                            MDLabel:
+                                id: account_label
+                                text: "Witaj"
+                                font_style: "H5"
+                            MDBoxLayout:
+                                MDLabel:
+                                    id: choose_device
+                                    text:"Wybierz urządzenie z listy, aby nim zarządzać:"
+                                    text_size:None,None
+                                    adaptive_width:True
+
+                        MDGridLayout:
+                            size_hint_y:.75
+                            cols:2
+                            padding:[dp(15),dp(15),dp(15),dp(35)]
+                            spacing:dp(15)
+
+                            ElementCard:
+                                text:"Lampy ogrodowe"
+                                items_count:"8 sztuk"
+                                on_release:
+                                    root.manager.transition.direction = "left"
+                                    app.root.current = "single_device_screen"
+                                Image:
+                                    source: "icons/icon-lamp.png"
+
+
+                            ElementCard:
+                                text:"Brama wjazdowa"
+                                items_count:""
+                                Image:
+                                    source: "icons/icon-gate.png"
+
+                            ElementCard:
+                                text:"Brama garażowa"
+                                items_count:""
+                                Image:
+                                    source: "icons/icon-garage.png"
+
+                            ElementCard:
+                                text:"Furtka"
+                                items_count:""
+                                Image:
+                                    source: "icons/icon-doorway.png"
+
+                            ElementCard:
+                                text:"Zraszacze"
+                                items_count:"5 sztuk"
+                                Image:
+                                    source: "icons/icon-sprinkler.png"
+
+                            ElementCard:
+                                text:"Pompa oczka wodnego"
+                                items_count:""
+                                Image:
+                                    source: "icons/icon-fountain.png"
+
+                        MDFloatingActionButtonSpeedDial:
+                            size_hint_y:.10
+                            data: app.data
+                            root_button_anim: True
+                            callback: app.callback  # klikniecie przycisku
+
+            MDNavigationDrawer:
+                id: nav_drawer
+                ContentNavigationDrawer:
+                    id: content_drawer
+                    nav_drawer: nav_drawer
+
+<ElementCard@MDCard>:
+    md_bg_color: app.theme_cls.primary_light
+    padding:dp(15)
+    spacing:dp(15)
+    radius:dp(25)
+    ripple_behavior: True
+    text:""
+    items_count:""
+
+
+    orientation:'vertical'
+
+    MDBoxLayout:
+        orientation:'vertical'
+        MDLabel:
+            halign:"center"
+            text:root.text
+            font_style:"H6"
+        MDLabel:
+            halign:"center"
+            text:root.items_count
