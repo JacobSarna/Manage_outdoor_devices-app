@@ -59,6 +59,7 @@ class RegisterScreen(Screen):
             if self.password.text != "":
                 conn = sqlite3.connect('database_man-out-devs.db')
                 c = conn.cursor()
+                temp = False
                 try:
                     c.execute("INSERT INTO users (acc_name, login, password) VALUES (:acc_name, :login, :password)",
                                     {
@@ -67,13 +68,17 @@ class RegisterScreen(Screen):
                                       'password': self.password.text
                                     }
                               )
-                except:
-                    warning_dialog()
+                except Exception:
+                    temp = True
+
+                if temp:
+                    self.dialog_email_exist()
+                else:
+                    self.info_account_created()
 
                 conn.commit()
                 conn.close()
 
-                self.info_account_created()
                 self.reset()
             else:
                 invalid_login()
@@ -92,6 +97,15 @@ class RegisterScreen(Screen):
             snackbar_y="5dp",
             )
         self.snackbar.open()
+
+    # okno dialogowe z komunikatem o istnieniu adresu e-mail
+    def dialog_email_exist(self):
+        dialog = None
+        if not dialog:
+            dialog = MDDialog(
+                title="Podany adres e-mail już istnieje.\nZaloguj się",
+                radius=[10, 10, 10, 10])
+        dialog.open()
 
     def reset(self):
         self.login.text = ""
@@ -120,24 +134,33 @@ class AddDeviceScreen(Screen):
         if self.ids.add_device.text != "" and self.ids.quantity_of_devices.text != "":
             conn = sqlite3.connect('database_man-out-devs.db')
             c = conn.cursor()
-            try:
-                c.execute("INSERT INTO devices (device, quantity) VALUES (:device, :quantity)",
+            if self.ids.quantity_of_devices.text > str(0):
+                temp = False
+                try:
+                    c.execute("INSERT INTO devices (device, quantity) VALUES (:device, :quantity)",
                              {
                                'device': self.add_device.text,
                                'quantity': self.quantity_of_devices.text
                              }
                           )
-            except:
-                print("To urządzenie zostało już dodane")
+                except Exception:
+                    temp = True
 
-            conn.commit()
-            conn.close()
+                if temp:
+                    self.dialog_device_exist()
+                else:
+                    self.info_device_added()
 
-            self.info_device_added()
-            self.reset()
+                conn.commit()
+                conn.close()
+
+                self.reset()
+            else:
+                invalid_data()
         else:
             invalid_form()
 
+    # komunikat po poprawnym dodaniu urzadzenia
     def info_device_added(self):
         self.snackbar = Snackbar(
             text="[color=#000]Urządzenie zostało dodane![/color]",
@@ -145,6 +168,15 @@ class AddDeviceScreen(Screen):
             snackbar_y="5dp",
             )
         self.snackbar.open()
+
+    # okno dialogowe z komunikatem o istnieniu urzadzenia
+    def dialog_device_exist(self):
+        dialog = None
+        if not dialog:
+            dialog = MDDialog(
+                title="Takie urządzenie zostało już dodane",
+                radius=[10, 10, 10, 10])
+        dialog.open()
 
     def reset(self):
         self.ids.add_device.text = ""
@@ -206,13 +238,10 @@ def invalid_form():
     pop.open()
 
 
-def warning_dialog():
-    dialog = None
-    if not dialog:
-        dialog = MDDialog(
-            title="Podany adres e-mail już istnieje.\nZaloguj się",
-            radius=[10, 10, 10, 10])
-    dialog.open()
+def invalid_data():
+    pop = Popup(title='Wprowadzono niepoprawne dane',
+                background='atlas://data/images/defaulttheme/button')
+    pop.open()
 
 
 # ekrany
@@ -266,8 +295,8 @@ class MainApp(MDApp):
                                 quantity number)
                       """
                       )
-        except:
-            print("Tabela już istnieje")
+        except Exception as e:
+            print("Tabela już istnieje -", e)
 
         # zapisanie zmian
         conn.commit()

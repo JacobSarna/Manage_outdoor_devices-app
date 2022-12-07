@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="badc01fd-4bf8-4461-8c90-88a0d98762fd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database_man-out-devs.db" beforeDir="false" afterPath="$PROJECT_DIR$/database_man-out-devs.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,23 +81,65 @@
     </task>
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="HEAD" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="WindowStateProjectService">
-    <state width="1899" height="187" key="GridCell.Tab.0.bottom" timestamp="1668269283517">
+    <state x="2389" y="114" key="CommitChangelistDialog2" timestamp="1670442856165">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="187" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1668269283517" />
-    <state width="1899" height="187" key="GridCell.Tab.0.center" timestamp="1668269283517">
+    <state x="2389" y="114" key="CommitChangelistDialog2/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1670442856165" />
+    <state width="1899" height="187" key="GridCell.Tab.0.bottom" timestamp="1669931481975">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="187" key="GridCell.Tab.0.center/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1668269283517" />
-    <state width="1899" height="187" key="GridCell.Tab.0.left" timestamp="1668269283517">
+    <state width="1899" height="187" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1669931481975" />
+    <state width="1899" height="187" key="GridCell.Tab.0.center" timestamp="1669931481974">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="187" key="GridCell.Tab.0.left/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1668269283517" />
-    <state width="1899" height="187" key="GridCell.Tab.0.right" timestamp="1668269283517">
+    <state width="1899" height="187" key="GridCell.Tab.0.center/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1669931481974" />
+    <state width="1899" height="187" key="GridCell.Tab.0.left" timestamp="1669931481974">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="187" key="GridCell.Tab.0.right/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1668269283517" />
+    <state width="1899" height="187" key="GridCell.Tab.0.left/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1669931481974" />
+    <state width="1899" height="187" key="GridCell.Tab.0.right" timestamp="1669931481975">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1899" height="187" key="GridCell.Tab.0.right/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1669931481975" />
     <state x="2543" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1668196311610">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
