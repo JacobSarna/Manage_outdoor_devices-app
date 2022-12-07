@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="badc01fd-4bf8-4461-8c90-88a0d98762fd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database_man-out-devs.db" beforeDir="false" afterPath="$PROJECT_DIR$/database_man-out-devs.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,6 +77,14 @@
       <option name="presentableId" value="Default" />
       <updated>1650994407067</updated>
     </task>
+    <task id="LOCAL-00001" summary="fixed dialog message after register and adding new device">
+      <created>1670443584627</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1670443584627</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -119,11 +125,15 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="fixed dialog message after register and adding new device" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed dialog message after register and adding new device" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="2389" y="114" key="CommitChangelistDialog2" timestamp="1670442856165">
+    <state x="2389" y="114" key="CommitChangelistDialog2" timestamp="1670443581818">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="2389" y="114" key="CommitChangelistDialog2/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1670442856165" />
+    <state x="2389" y="114" key="CommitChangelistDialog2/0.0.1536.824/1920.0.1920.1040@1920.0.1920.1040" timestamp="1670443581818" />
     <state width="1899" height="187" key="GridCell.Tab.0.bottom" timestamp="1669931481975">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
