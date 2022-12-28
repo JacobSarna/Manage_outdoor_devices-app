@@ -114,7 +114,6 @@ class RegisterScreen(Screen):
 
 
 class MainScreen(Screen):
-    # dodać scrollview
     pass
 
 
@@ -268,6 +267,25 @@ class MainApp(MDApp):
     def callback(self, instance):
         if instance.icon == "plus-box-multiple":
             self.root.current = "add_device_screen"
+
+        # usuniecie urzadzenia po oznaczeniu checkbox
+        if instance.icon == "delete":
+            if self.on_checkbox_active(checkbox="", value=True):
+                pass
+
+    # komunikat o usunieciu urzadzenia po oznaczeniu checkbox
+    def on_checkbox_active(self, checkbox, value):
+        if value:
+            self.info_device_deleted()
+
+    def info_device_deleted(self):
+        self.snackbar = Snackbar(
+            text="[color=#000]Urządzenie zostało usunięte[/color]",
+            bg_color=(1, 1, 1, .8),
+            snackbar_y="5dp",
+            size_hint_x=.6
+        )
+        self.snackbar.open()
 
     def build(self):
         self.theme_cls.theme_style = "Light"

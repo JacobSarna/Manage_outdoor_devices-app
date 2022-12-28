@@ -532,51 +532,57 @@ WindowManager:
                                     text_size:None,None
                                     adaptive_width:True
 
-                        MDGridLayout:
-                            size_hint_y:.75
-                            cols:2
-                            padding:[dp(15),dp(15),dp(15),dp(35)]
-                            spacing:dp(15)
+                        ScrollView:
+                            MDGridLayout:
+                                id: main_grid_layout
+                                cols:2
+                                padding:[dp(15),dp(15),dp(15),dp(35)]
+                                spacing:dp(15)
 
-                            ElementCard:
-                                text:"Lampy ogrodowe"
-                                items_count:"8 sztuk"
-                                on_release:
-                                    root.manager.transition.direction = "left"
-                                    app.root.current = "single_device_screen"
-                                Image:
-                                    source: "icons/icon-lamp.png"
+                                ElementCard:
+                                    id: garden_lamps
+                                    text:"Lampy ogrodowe"
+                                    items_count:"8 sztuk"
+                                    on_release:
+                                        root.manager.transition.direction = "left"
+                                        app.root.current = "single_device_screen"
+                                    Image:
+                                        source: "icons/icon-lamp.png"
 
+                                ElementCard:
+                                    id: entry_gate
+                                    text:"Brama wjazdowa"
+                                    items_count:""
+                                    Image:
+                                        source: "icons/icon-gate.png"
 
-                            ElementCard:
-                                text:"Brama wjazdowa"
-                                items_count:""
-                                Image:
-                                    source: "icons/icon-gate.png"
+                                ElementCard:
+                                    id: garage_door
+                                    text:"Brama garażowa"
+                                    items_count:""
+                                    Image:
+                                        source: "icons/icon-garage.png"
 
-                            ElementCard:
-                                text:"Brama garażowa"
-                                items_count:""
-                                Image:
-                                    source: "icons/icon-garage.png"
+                                ElementCard:
+                                    id: gateway
+                                    text:"Furtka"
+                                    items_count:""
+                                    Image:
+                                        source: "icons/icon-doorway.png"
 
-                            ElementCard:
-                                text:"Furtka"
-                                items_count:""
-                                Image:
-                                    source: "icons/icon-doorway.png"
+                                ElementCard:
+                                    id: sprinklers
+                                    text:"Zraszacze"
+                                    items_count:"5 sztuk"
+                                    Image:
+                                        source: "icons/icon-sprinkler.png"
 
-                            ElementCard:
-                                text:"Zraszacze"
-                                items_count:"5 sztuk"
-                                Image:
-                                    source: "icons/icon-sprinkler.png"
-
-                            ElementCard:
-                                text:"Pompa oczka wodnego"
-                                items_count:""
-                                Image:
-                                    source: "icons/icon-fountain.png"
+                                ElementCard:
+                                    id: pond_water_pump
+                                    text:"Pompa oczka wodnego"
+                                    items_count:""
+                                    Image:
+                                        source: "icons/icon-fountain.png"
 
                         MDFloatingActionButtonSpeedDial:
                             size_hint_y:.10
@@ -592,10 +598,9 @@ WindowManager:
 
 <ElementCard@MDCard>:
     md_bg_color: app.theme_cls.primary_light
-    padding:dp(15)
+    padding:dp(10)
     spacing:dp(15)
     radius:dp(25)
-    ripple_behavior: True
     text:""
     items_count:""
 
@@ -604,10 +609,24 @@ WindowManager:
 
     MDBoxLayout:
         orientation:'vertical'
+        MDCheckbox:
+            size_hint: None, None
+            size: "40dp", "40dp"
+            pos_hint: {'center_x': .94}
+            on_active:
+                app.on_checkbox_active(*args)
+
         MDLabel:
             halign:"center"
             text:root.text
             font_style:"H6"
+
+        Widget:
+            size_hint_y: None
+            height: 20
+
         MDLabel:
-            halign:"center"
+            text_size:None,None
+            adaptive_width:True
+            pos_hint: {'center_x': 0.5}
             text:root.items_count
