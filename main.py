@@ -12,6 +12,7 @@ from kivymd.uix.dialog import MDDialog
 from kivy.core.window import Window
 from kivymd.uix.picker import MDDatePicker, MDTimePicker
 from kivymd.uix.snackbar import Snackbar
+from pyfirmata import Arduino
 import sqlite3
 
 Window.size = (414, 700)
@@ -251,6 +252,22 @@ screens = [MainScreen(name="main_screen"), RegisterScreen(name="register_screen"
 for screen in screens:
     sm.add_widget(screen)
 
+# ustawienia plytki Arduino
+port = "COM3"
+board = Arduino(port)
+pin_13 = 13
+pin_12 = 12
+pin_11 = 11
+pin_10 = 10
+pin_9 = 9
+pin_8 = 8
+pin_7 = 7
+pin_6 = 6
+pin_5 = 5
+pin_4 = 4
+pin_3 = 3
+pin_2 = 2
+
 
 class MainApp(MDApp):
     def __init__(self, **kwargs):
@@ -286,6 +303,15 @@ class MainApp(MDApp):
             size_hint_x=.6
         )
         self.snackbar.open()
+
+    # symulacja wlaczania/wylaczania urzadzenia na plytce Arduino
+    def on_switch_active(self, switch, value):
+        if value:
+            board.digital[pin_13].write(1)
+            board.digital[pin_12].write(0)
+        else:
+            board.digital[pin_12].write(1)
+            board.digital[pin_13].write(0)
 
     def build(self):
         self.theme_cls.theme_style = "Light"
