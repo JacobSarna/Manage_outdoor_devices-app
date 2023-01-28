@@ -174,6 +174,11 @@ WindowManager:
 
 <ProfileScreen>
     name: "profile_screen"
+    acc_name: acc_name
+    login: login
+    password: password
+    confirm_password: confirm_password
+
     Screen:
         MDNavigationLayout:
             ScreenManager:
@@ -193,7 +198,6 @@ WindowManager:
                             size_hint_y:.10
                             font_size: 22
 
-
                         MDCard:
                             size_hint: None, None
                             size: 300, 150
@@ -202,6 +206,7 @@ WindowManager:
                             elevation: 10
                             padding: 18
                             spacing: 10
+                            radius:dp(10)
 
                             AnchorLayout:
                                 anchor_x: "center"
@@ -235,6 +240,7 @@ WindowManager:
                             elevation: 10
                             padding: 25, 0, 25, 25
                             spacing: 20
+                            radius:dp(10)
                             orientation: 'vertical'
 
                             MDTextFieldRound:
@@ -244,7 +250,7 @@ WindowManager:
                                 normal_color: app.theme_cls.accent_color
                                 size_hint_x: None
                                 width: 210
-                                font_size: 18
+                                font_size: 15
                                 pos_hint: {"center_x": 0.5}
                                 disabled: True
 
@@ -254,7 +260,7 @@ WindowManager:
                                 icon_left: "account-box"
                                 size_hint_x: None
                                 width: 210
-                                font_size: 18
+                                font_size: 15
                                 pos_hint: {"center_x": 0.5}
 
                             MDTextFieldRound:
@@ -263,7 +269,7 @@ WindowManager:
                                 icon_left: "key-variant"
                                 size_hint_x: None
                                 width: 210
-                                font_size: 18
+                                font_size: 15
                                 pos_hint: {"center_x": 0.5}
                                 password: True
 
@@ -273,7 +279,7 @@ WindowManager:
                                 icon_left: "key-variant"
                                 size_hint_x: None
                                 width: 210
-                                font_size: 18
+                                font_size: 15
                                 pos_hint: {"center_x": 0.5}
                                 password: True
 
@@ -282,7 +288,7 @@ WindowManager:
                                 font_size: 14
                                 pos_hint: {"center_x": 0.5}
                                 on_press:
-                                    pass
+                                    root.update_profile()
 
                         Widget:
                             size_hint_y: None
@@ -296,6 +302,8 @@ WindowManager:
 
 <SettingsScreen>
     name: "settings_screen"
+    group_name: group_name
+
     Screen:
         MDNavigationLayout:
             ScreenManager:
@@ -310,8 +318,62 @@ WindowManager:
 
                         MDLabel:
                             id: profile_label
-                            text: "Ustawienia"
+                            text: "Dostępne ustawienia"
                             halign: "center"
+                            font_size: 18
+
+                        MDCard:
+                            orientation: "vertical"
+                            size_hint: None, None
+                            size: 320, 300
+                            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                            elevation: 10
+                            padding: 10
+                            spacing: 5
+                            radius:dp(10)
+
+                            MDLabel:
+                                text: "Zmień motyw aplikacji:"
+                                halign: "center"
+
+                            MDSwitch:
+                                pos_hint: {'center_x': .5}
+                                width: dp(50)
+                                widget_style: "ios"
+                                on_active:
+                                    app.change_theme(*args)
+
+                            MDLabel:
+                                text: "Dodaj grupę urządzeń:"
+                                halign: "center"
+
+                            MDTextFieldRound:
+                                id: group_name
+                                hint_text: "nazwa grupy"
+                                icon_left: "format-line-weight"
+                                size_hint_x: None
+                                width: 210
+                                font_size: 15
+                                pos_hint: {"center_x": 0.5}
+
+                            Widget:
+                                size_hint_y: None
+                                height: 10
+
+                            MDRoundFlatButton:
+                                text: "Dodaj"
+                                font_size: 14
+                                pos_hint: {"center_x": 0.5}
+                                on_press:
+                                    root.add_new_device_group()
+
+                            Widget:
+                                size_hint_y: None
+                                height: 20
+
+                        Widget:
+                            size_hint_y: None
+                            height: 270
 
             MDNavigationDrawer:
                 id: nav_drawer
@@ -343,7 +405,7 @@ WindowManager:
             icon_left: "devices"
             size_hint_x: None
             width: 210
-            font_size: 18
+            font_size: 14
             pos_hint: {"center_x": 0.5}
 
         MDLabel:
@@ -357,8 +419,9 @@ WindowManager:
             icon_left: "counter"
             size_hint_x: None
             width: 210
-            font_size: 18
+            font_size: 14
             pos_hint: {"center_x": 0.5}
+            input_filter: 'int'
 
         Widget:
             size_hint_y: None

@@ -60,7 +60,7 @@ class RegisterScreen(Screen):
             if self.password.text != "":
                 conn = sqlite3.connect('database_man-out-devs.db')
                 c = conn.cursor()
-                temp = False
+                exist = False
                 try:
                     c.execute("INSERT INTO users (acc_name, login, password) VALUES (:acc_name, :login, :password)",
                                     {
@@ -70,9 +70,9 @@ class RegisterScreen(Screen):
                                     }
                               )
                 except Exception:
-                    temp = True
+                    exist = True
 
-                if temp:
+                if exist:
                     self.dialog_email_exist()
                 else:
                     self.info_account_created()
@@ -119,11 +119,130 @@ class MainScreen(Screen):
 
 
 class ProfileScreen(Screen):
-    pass
+    acc_name = ObjectProperty(None)
+    login = ObjectProperty(None)
+    password = ObjectProperty(None)
+    confirm_password = ObjectProperty(None)
+
+    def on_enter(self, *args):
+        conn = sqlite3.connect('database_man-out-devs.db')
+        c = conn.cursor()
+        c.execute("SELECT acc_name, login FROM users WHERE id=1")
+        records = c.fetchall()
+
+        self.ids.acc_name_label.text = str(records[0][0])
+        self.ids.login.text = str(records[0][1])
+        conn.commit()
+        conn.close()
+
+    def update_profile(self):
+        if self.ids.login.text != "" and self.ids.password.text != "" and self.ids.confirm_password.text != "":
+            conn = sqlite3.connect('database_man-out-devs.db')
+            c = conn.cursor()
+            c.execute("SELECT login, password FROM users WHERE login=? AND password=?",
+                      (self.login.text, self.password.text))
+            record = c.fetchone()
+
+            if record:
+                not_exist = False
+                try:
+                    if self.ids.acc_name.text == "":
+                        c.execute("UPDATE users SET login=?, password=? WHERE id=1",
+                                  (self.login.text, self.confirm_password.text))
+                    else:
+                        c.execute("UPDATE users SET acc_name=?, login=?, password=? WHERE id=1",
+                                  (self.acc_name.text, self.login.text, self.confirm_password.text))
+                except Exception:
+                    not_exist = True
+
+                if not_exist:
+                    self.not_defined_user()
+                else:
+                    self.info_user_updated()
+
+                conn.commit()
+                conn.close()
+
+                self.reset()
+            else:
+                invalid_data()
+        else:
+            invalid_form()
+
+    # komunikat po poprawnej aktualizacji uzytkownika
+    def info_user_updated(self):
+        self.snackbar = Snackbar(
+            text="[color=#000]Zaktualizowano profil użytkownika![/color]",
+            bg_color=(1, 1, 1, .8),
+            snackbar_y="5dp",
+            )
+        self.snackbar.open()
+
+    # okno dialogowe z komunikatem o braku takiego uzytkownika
+    def not_defined_user(self):
+        dialog = None
+        if not dialog:
+            dialog = MDDialog(
+                title="Nie znaleziono takiego użytkownika w bazie!",
+                radius=[10, 10, 10, 10])
+        dialog.open()
+
+    def reset(self):
+        if self.ids.acc_name.text != "":
+            self.ids.acc_name.text = ""
+        self.ids.password.text = ""
+        self.ids.confirm_password.text = ""
 
 
 class SettingsScreen(Screen):
-    pass
+    group_name = ObjectProperty(None)
+
+    def add_new_device_group(self):
+        if self.ids.group_name.text != "":
+            conn = sqlite3.connect('database_man-out-devs.db')
+            c = conn.cursor()
+            exist = False
+            try:
+                c.execute("INSERT INTO devices_group (group_name) VALUES (:group_name)",
+                          {
+                            'group_name': self.group_name.text,
+                          }
+                          )
+            except Exception:
+                exist = True
+
+            if exist:
+                self.dialog_group_exist()
+            else:
+                self.info_group_added()
+
+            conn.commit()
+            conn.close()
+
+            self.reset()
+        else:
+            invalid_form()
+
+    # komunikat po poprawnym dodaniu grupy
+    def info_group_added(self):
+        self.snackbar = Snackbar(
+            text="[color=#000]Pomyślnie dodano grupę urządzeń![/color]",
+            bg_color=(1, 1, 1, .8),
+            snackbar_y="5dp",
+            )
+        self.snackbar.open()
+
+    # okno dialogowe z komunikatem o istnieniu urzadzenia
+    def dialog_group_exist(self):
+        dialog = None
+        if not dialog:
+            dialog = MDDialog(
+                title="Taka grupa urządzeń została już dodana",
+                radius=[10, 10, 10, 10])
+        dialog.open()
+
+    def reset(self):
+        self.ids.group_name.text = ""
 
 
 class AddDeviceScreen(Screen):
@@ -135,7 +254,7 @@ class AddDeviceScreen(Screen):
             conn = sqlite3.connect('database_man-out-devs.db')
             c = conn.cursor()
             if self.ids.quantity_of_devices.text > str(0):
-                temp = False
+                exist = False
                 try:
                     c.execute("INSERT INTO devices (device, quantity) VALUES (:device, :quantity)",
                              {
@@ -144,9 +263,9 @@ class AddDeviceScreen(Screen):
                              }
                           )
                 except Exception:
-                    temp = True
+                    exist = True
 
-                if temp:
+                if exist:
                     self.dialog_device_exist()
                 else:
                     self.info_device_added()
@@ -254,7 +373,7 @@ for screen in screens:
 
 # ustawienia plytki Arduino
 port = "COM3"
-board = Arduino(port)
+# board = Arduino(port)
 pin_13 = 13
 pin_12 = 12
 pin_11 = 11
@@ -313,6 +432,13 @@ class MainApp(MDApp):
             board.digital[pin_12].write(1)
             board.digital[pin_13].write(0)
 
+    # zmiana motywu aplikacji
+    def change_theme(self, switch, switched):
+        if switched:
+            self.theme_cls.theme_style = "Dark"
+        else:
+            self.theme_cls.theme_style = "Light"
+
     def build(self):
         self.theme_cls.theme_style = "Light"
         self.theme_cls.primary_palette = "LightBlue"
@@ -339,6 +465,11 @@ class MainApp(MDApp):
                                 quantity number)
                       """
                       )
+            c.execute("""CREATE TABLE if not exists devices_group(
+                                id integer PRIMARY KEY,
+                                group_name text unique)
+                      """
+                      )
         except Exception as e:
             print("Tabela już istnieje -", e)
 
@@ -354,4 +485,3 @@ if __name__ == '__main__':
     if hasattr(sys, '_MEIPASS'):
         resource_add_path(os.path.join(sys._MEIPASS))
     MainApp().run()
-
